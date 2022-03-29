@@ -17,15 +17,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from AboutUs.views import AboutUsViewSet
+from product import views
+# from AboutUs import AboutUs
+
+router = DefaultRouter()
+router.register(r'product', views.ProductViewSet, 'product')
+router.register(r'about_us', AboutUsViewSet, 'about_Us')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('ckeditor/', include('ckeditor_uploader.urls')),
-    path ('api-auth/',include('rest_framework.urls')),
-    path('api/v1/collection', include('collection.urls')),
-    path('api/v1/about_us', include('AboutUs.urls')),
-
+    path (r'ckeditor/', include('ckeditor_uploader.urls')),
+    path('api/v1/', include(router.urls)),
 ]  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+    # path ('api-auth/',include('rest_framework.urls')),
+    # path('api/v1/about_us', include('AboutUs.urls')),
+    # path('api/v1/', include('product.urls'))
+
+
+
 
 # if settings.DEBUG:
 #         urlpatterns += static(settings.MEDIA_URL,

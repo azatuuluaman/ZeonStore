@@ -1,8 +1,9 @@
 from django import forms
-from .models import *
+from .models import ProductGallery
 
 class ImageForm(forms.ModelForm):
 
     class Meta:
-        model = Image
-        fields = [Image]
+        model = ProductGallery
+        fields = [ProductGallery]
+

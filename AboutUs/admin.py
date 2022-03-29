@@ -1,30 +1,27 @@
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib import admin
-from .models import About_Us
-# from .models import Image_About_Us
+from rest_framework.exceptions import ValidationError
+
+from .models import AboutUs
 
 
-# class ImageInLine(admin.TabularInline):
-#     model = Image_About_Us
-#     max_num = 3
-#     min_num = 1
 class ProductForm(forms.ModelForm):
     description = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
-        model = About_Us
+        model = AboutUs
         fields = '__all__'
 
-@admin.register(About_Us)
+    def clean(self):
+        if len(self.cleaned_data.get("title")) >= 8:
+            raise ValidationError('Не больше 8 страниц')
+
+
+@admin.register(AboutUs)
 class AboutUsAdmin(admin.ModelAdmin):
     form = ProductForm
 
 
-
 class ProductAdmin(admin.ModelAdmin):
     form = ProductForm
-
-
-
-
