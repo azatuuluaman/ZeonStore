@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import admin
 from rest_framework.exceptions import ValidationError
 
-from .models import AboutUs, News
+from .models import AboutUs, News, Helping, Image
 
 
 class ProductForm(forms.ModelForm):
@@ -26,3 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(News)
 class News(admin.ModelAdmin):
     form = ProductForm
+
+admin.site.register(Helping)
+
+admin.site.register(Image)

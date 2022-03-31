@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import AboutUs, News
+from .models import AboutUs, News, Helping
 
 
 class AboutUsSerializer(serializers.ModelSerializer):
@@ -11,4 +11,9 @@ class AboutUsSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
+        fields = '__all__'
+
+class HelpingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Helping
         fields = '__all__'

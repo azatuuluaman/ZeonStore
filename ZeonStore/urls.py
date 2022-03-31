@@ -30,6 +30,7 @@ router.register(r'about_us', AboutUsViewSet, 'about_Us')
 router.register(r'collection', views.CollectionViewSet, 'collection' )
 router.register(r'collectionproduct', views.CollectionProductViewSet, 'collectionproduct' )  #
 router.register(r'news', others.views.NewsViewSet, 'news')  # новости
+router.register(r'help', others.views.HelpingViewSet, 'help') # помощь
 
 urlpatterns = [
     path('admin/', admin.site.urls),

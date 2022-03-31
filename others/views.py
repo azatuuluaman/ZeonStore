@@ -2,7 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from . import serializers, models
-from .serializers import NewsSerializer
+from .serializers import NewsSerializer, HelpingSerializer
 
 
 class AboutUsViewSet (ModelViewSet):
@@ -31,3 +31,10 @@ class NewsViewSet(ModelViewSet):
     queryset = models.News.objects.all()
     serializer_class = NewsSerializer
     pagination_class = Pagination
+
+class HelpingViewSet(ModelViewSet):
+    """
+    Помощь
+    """
+    queryset = models.Helping.objects.all()
+    serializer_class = HelpingSerializer
