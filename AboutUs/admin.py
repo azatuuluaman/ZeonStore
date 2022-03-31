@@ -13,9 +13,6 @@ class ProductForm(forms.ModelForm):
         model = AboutUs
         fields = '__all__'
 
-    def clean(self):
-        if len(self.cleaned_data.get("title")) >= 8:
-            raise ValidationError('Не больше 8 страниц')
 
 
 @admin.register(AboutUs)
