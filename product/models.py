@@ -24,6 +24,7 @@ class Product(models.Model):
     count_item = models.IntegerField('Количество вещей')
     size = models.CharField('Размерный ряд', max_length=100)
     material = models.CharField('Материал товара', max_length=50)
+    favorites = models.BooleanField('Избранные', default=False)
 
     def __str__(self):
         return self.title

@@ -16,6 +16,11 @@ class SimilarProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'collection')
 
+class CollectionProductSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ( 'collection','id', 'cover_photo', 'title',  'price', 'old_price', 'discount','size',  'color')
+
 
 
 
