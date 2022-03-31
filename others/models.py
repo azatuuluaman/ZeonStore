@@ -10,4 +10,10 @@ class AboutUs(models.Model):
     def __str__(self):
         return self.title
 
+class News(models.Model):
+    image = models.ImageField('Изображение', upload_to='images_news')
+    title = models.CharField('Заголовок', max_length=50)
+    description = models.TextField('Описание', max_length=1500)
+
+
 

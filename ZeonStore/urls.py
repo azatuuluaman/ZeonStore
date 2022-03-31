@@ -18,7 +18,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from AboutUs.views import AboutUsViewSet
+
+import others.views
+from others.views import AboutUsViewSet
 from product import views
 from product.views import CollectionProductViewSet
 
@@ -26,9 +28,8 @@ router = DefaultRouter()
 router.register(r'product', views.ProductViewSet, 'product')
 router.register(r'about_us', AboutUsViewSet, 'about_Us')
 router.register(r'collection', views.CollectionViewSet, 'collection' )
-router.register(r'collectionproduct', views.CollectionProductViewSet, 'collectionproduct' )  # показывает
-# router.register(r'', views.CollectionProductViewSet, 'collectionproduct' )  # показывает
-# router.register(r'collectproduct', views.CollectionProductViewSet, 'collect')
+router.register(r'collectionproduct', views.CollectionProductViewSet, 'collectionproduct' )  #
+router.register(r'news', others.views.NewsViewSet, 'news')  # новости
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,7 +42,7 @@ urlpatterns = [
 ]  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
     # path ('api-auth/',include('rest_framework.urls')),
-    # path('api/v1/about_us', include('AboutUs.urls')),
+    # path('api/v1/about_us', include('others.urls')),
     # path('api/v1/', include('product.urls'))
 
 

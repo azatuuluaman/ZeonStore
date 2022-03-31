@@ -14,12 +14,12 @@ class CollectionSerializer(serializers.ModelSerializer):
 class SimilarProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'collection')
+        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'collection',)
 
 class CollectionProductSerializer (serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ( 'collection','id', 'cover_photo', 'title',  'price', 'old_price', 'discount','size',  'color')
+        fields = ( 'collection','id', 'cover_photo', 'title',  'price', 'old_price', 'discount','size',  'color',)
 
 
 

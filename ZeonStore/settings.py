@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'product',
     'rest_framework',
-    'AboutUs',
+    'others',
     'colorfield',
 ]
 
