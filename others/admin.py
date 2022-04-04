@@ -1,9 +1,7 @@
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib import admin
-from rest_framework.exceptions import ValidationError
-
-from .models import AboutUs, News, Helping, Image
+from .models import AboutUs, News, Helping, Image, OurAdvantages, MainPage, PublicOffer , Footer
 
 
 class ProductForm(forms.ModelForm):
@@ -12,7 +10,6 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = AboutUs
         fields = '__all__'
-
 
 
 @admin.register(AboutUs)
@@ -30,3 +27,12 @@ class News(admin.ModelAdmin):
 admin.site.register(Helping)
 
 admin.site.register(Image)
+admin.site.register(OurAdvantages)
+admin.site.register(MainPage)
+
+@admin.register(PublicOffer)
+class PublicOffer(admin.ModelAdmin):
+    form = ProductForm
+
+
+admin.site.register(Footer)

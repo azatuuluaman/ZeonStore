@@ -44,7 +44,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = models.Product.objects.all()
     serializer_class = ProductSerializer
-    serializer_class = SimilarProductSerializer
+    # serializer_class = SimilarProductSerializer
 
 
 @api_view(['GET'])

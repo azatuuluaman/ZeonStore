@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import AboutUs, News, Helping
+from .models import AboutUs, News, Helping, PublicOffer, Footer
 
 
 class AboutUsSerializer(serializers.ModelSerializer):
@@ -17,3 +17,13 @@ class HelpingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Helping
         fields = '__all__'
+
+class PublicOfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PublicOffer
+        fields = '__all__'
+
+class FooterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Footer
+        fields = 'logo', 'description','num', 'link' , 'phone', 'gmail'

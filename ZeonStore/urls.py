@@ -23,14 +23,17 @@ import others.views
 from others.views import AboutUsViewSet
 from product import views
 from product.views import CollectionProductViewSet
+from .swagger import url
 
 router = DefaultRouter()
 router.register(r'product', views.ProductViewSet, 'product')
 router.register(r'about_us', AboutUsViewSet, 'about_Us')
 router.register(r'collection', views.CollectionViewSet, 'collection' )
-router.register(r'collectionproduct', views.CollectionProductViewSet, 'collectionproduct' )  #
+router.register(r'collectionproduct', views.CollectionProductViewSet, 'collectionproduct' )
 router.register(r'news', others.views.NewsViewSet, 'news')  # новости
 router.register(r'help', others.views.HelpingViewSet, 'help') # помощь
+router.register(r'publicoffer' , others.views.PublicOfferViewSet, 'publicoffer') # публичная оферта
+router.register(r'footer', others.views.FooterViewSet, 'footer') # футер
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,9 +42,8 @@ urlpatterns = [
     path('api/v1/similar_product/<int:pk>/', views.filter, name='filter'),
     path('api/v1/collection_product/<int:pk>', views.collection_products), #    показывает 12 товаров из одной коллекции
     path('api/v1/news_product/', views.new_products),  # показывает 5 товаров со статусом новинки
-
 ]  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-
+urlpatterns += url
     # path ('api-auth/',include('rest_framework.urls')),
     # path('api/v1/about_us', include('others.urls')),
     # path('api/v1/', include('product.urls'))

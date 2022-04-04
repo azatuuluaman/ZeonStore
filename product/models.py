@@ -74,21 +74,4 @@ class ProductColor(models.Model):
     def __str__(self):
         return self.title
 
-# все маленькие задачи
-# class offer(models.Model):
-#     """
-#     Публичная оферта.
-#     """
-#     header = models.CharField('   Заголовок', max_length=100)
-#     description = models.TextField('Описание', max_length=1300)
-#
-#     def __str__(self):
-#         return self.header
 
-#
-# class slider_main_page (models.Model):
-#     """
-#     Слайдер. Главная страница.
-#     """
-#     image = models.ImageField(upload_to='images/', null=True)
-#     "нужно сделать ссылку, хотя она не обязательная"
