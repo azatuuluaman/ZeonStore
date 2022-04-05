@@ -1,4 +1,6 @@
-from rest_framework import viewsets
+import random
+from . import serializers
+from rest_framework import viewsets, filters, generics
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -86,6 +88,7 @@ def collection_products(request, pk):
     serializer = SimilarProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
+
 class NewProductViewSet(ModelViewSet):
     """
     Список новинки
@@ -103,5 +106,63 @@ def new_products(request):
     queryset = Product.objects.all().filter(new_clothes=True)[0:5]
     serializer = SimilarProductSerializer(queryset, many=True)
     return Response(serializer.data)
+
+
 # Model View Set
 # Generix - когда пишешь апишку , выбираешь
+
+
+class SearchPagination(PageNumberPagination):
+    page_size = 1
+    max_page_size = 8
+
+    def get_paginated_response(self, data):
+        return Response({
+            'links': {
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link()
+            },
+            'count': self.page.paginator.count,
+            'results': data
+        })
+
+
+# class SearchSimilarProductView(generics.ListCreateAPIView):
+#     """
+#     Поиск товаров по имени
+#     """
+#     search_fields = ['title']
+#     filter_backends = (filters.SearchFilter,)
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
+#     pagination_class = SearchPagination
+
+    # @api_view(['GET'])
+    # def random_product(request):
+    #     """
+    #     Фильтр для вывода 5ти товаров со статусом новинки
+    #     """
+    #     queryset = Product.objects.all()
+    #     for i in range(6):
+    #         query = random.choice(queryset)
+    #     serializer = SimilarProductSerializer(query, many=True)
+    #     return Response(serializer.data)
+
+@api_view(['GET'])
+def product_search(request):
+    obj = []
+    number = models.Collection.objects.all().count() #
+    if number >= 5:
+        for i in models.Collection.objects.all().values_list('id')[0:5]: #
+            if models.Product.objects.all().filter(collection=i).first() is None:
+                pass
+            else:
+                obj.append(models.Product.objects.all().filter(collection=i).first())
+    else:
+        for i in models.Collection.objects.all().values_list('id')[0:number]: #
+            if models.Product.objects.all().filter(collection=i).first() is None:
+                pass
+            else:
+                obj.append(models.Product.objects.all().filter(collection=i).first())
+    serializer = serializers.ProductSerializer(obj, many=True)
+    return Response(serializer.data)

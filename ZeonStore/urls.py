@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 import others.views
+import product.views
 from others.views import AboutUsViewSet
 from product import views
 from product.views import CollectionProductViewSet
@@ -34,6 +35,9 @@ router.register(r'news', others.views.NewsViewSet, 'news')  # новости
 router.register(r'help', others.views.HelpingViewSet, 'help') # помощь
 router.register(r'publicoffer' , others.views.PublicOfferViewSet, 'publicoffer') # публичная оферта
 router.register(r'footer', others.views.FooterViewSet, 'footer') # футер
+# router.register(r'random', product.views.product_search, 'random')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,6 +46,8 @@ urlpatterns = [
     path('api/v1/similar_product/<int:pk>/', views.filter, name='filter'),
     path('api/v1/collection_product/<int:pk>', views.collection_products), #    показывает 12 товаров из одной коллекции
     path('api/v1/news_product/', views.new_products),  # показывает 5 товаров со статусом новинки
+    path('product_search/', product.views.product_search) #
+
 ]  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += url
     # path ('api-auth/',include('rest_framework.urls')),
