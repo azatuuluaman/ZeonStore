@@ -73,17 +73,46 @@ social_media = (
     ('WhatsApp', 'Whatsapp')
 )
 
+
 class Footer(models.Model):
     """
     Первая вкладка футер
     """
     logo = models.ImageField('Логотип', upload_to='images_footer')
     description = models.TextField('Текстовая информация', max_length=1500)
-    num = models.PositiveIntegerField('Номер в хедере')
+    num = models.CharField('Номер в хедере', max_length=100)
     type = models.CharField('Тип', max_length=100, choices=social_media)
     link = models.URLField('Ссылка')
-    phone1 = models.CharField('Номера телефона 1' , max_length=20)
-    phone2 = models.CharField('Номера телефона 2', max_length=20, blank=True)
-    phone3 = models.CharField('Номера телефона 3', max_length=20, blank = True)
     gmail = models.CharField('Почта', max_length=100)
+
+
+class NumberForFooter(models.Model):
+    footer = models.ForeignKey(Footer, on_delete= models.CASCADE)
+    number = models.CharField('Номер телефона', max_length=30)
+
+
+class FloatingButton(models.Model):
+    """
+    Плавающая кнопка
+    """
+    whatsapp = models.CharField('Whatsapp номер', max_length=100)
+    link = models.URLField('Whatsapp ссылка', max_length=100)
+    telegram = models.URLField('Telegram ссылка',max_length=100)
+
+
+    def __str__(self):
+        return self.whatsapp
+
+choice = (
+    ('Yes', 'Yes'),
+    ('No' , 'No'),
+)
+
+
+class BackCall(models.Model):
+    name = models.CharField('Поле для имени', max_length= 200)
+    number = models.CharField('Поле для номера', max_length=200)
+    backcall = models.CharField('Тип обратный звонок',choices=choice, max_length=10)
+    data = models.DateTimeField(auto_now=True)
+    called = models.CharField('Статус позвонили', choices=choice, max_length=10)
 

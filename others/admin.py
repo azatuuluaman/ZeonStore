@@ -1,7 +1,7 @@
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib import admin
-from .models import AboutUs, News, Helping, Image, OurAdvantages, MainPage, PublicOffer , Footer
+from .models import AboutUs, News, Helping, Image, OurAdvantages, MainPage, PublicOffer, Footer, FloatingButton, NumberForFooter, BackCall
 
 
 class ProductForm(forms.ModelForm):
@@ -36,3 +36,6 @@ class PublicOffer(admin.ModelAdmin):
 
 
 admin.site.register(Footer)
+admin.site.register(FloatingButton)
+admin.site.register(NumberForFooter)
+admin.site.register(BackCall)

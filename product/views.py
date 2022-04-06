@@ -25,6 +25,21 @@ class Pagination(PageNumberPagination):
         })
 
 
+class SearchPagination(PageNumberPagination):
+    page_size = 1
+    max_page_size = 8
+
+    def get_paginated_response(self, data):
+        return Response({
+            'links': {
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link()
+            },
+            'count': self.page.paginator.count,
+            'results': data
+        })
+
+
 class CollectionProductPagination(PageNumberPagination):
     page_size = 1
     max_page_size = 12
@@ -46,7 +61,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = models.Product.objects.all()
     serializer_class = ProductSerializer
-    # serializer_class = SimilarProductSerializer
 
 
 @api_view(['GET'])
@@ -108,45 +122,6 @@ def new_products(request):
     return Response(serializer.data)
 
 
-# Model View Set
-# Generix - когда пишешь апишку , выбираешь
-
-
-class SearchPagination(PageNumberPagination):
-    page_size = 1
-    max_page_size = 8
-
-    def get_paginated_response(self, data):
-        return Response({
-            'links': {
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link()
-            },
-            'count': self.page.paginator.count,
-            'results': data
-        })
-
-
-# class SearchSimilarProductView(generics.ListCreateAPIView):
-#     """
-#     Поиск товаров по имени
-#     """
-#     search_fields = ['title']
-#     filter_backends = (filters.SearchFilter,)
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-#     pagination_class = SearchPagination
-
-    # @api_view(['GET'])
-    # def random_product(request):
-    #     """
-    #     Фильтр для вывода 5ти товаров со статусом новинки
-    #     """
-    #     queryset = Product.objects.all()
-    #     for i in range(6):
-    #         query = random.choice(queryset)
-    #     serializer = SimilarProductSerializer(query, many=True)
-    #     return Response(serializer.data)
 
 @api_view(['GET'])
 def product_search(request):
