@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'others',
     'colorfield',
     'drf_yasg',
+    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [

@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-
 import others.views
 import product.views
 from others.views import AboutUsViewSet
@@ -38,7 +37,6 @@ router.register(r'footer', others.views.FooterViewSet, 'footer')  # футер
 router.register(r'floatingbutton', others.views.FloatingButtonViewSet, 'floatingbutton', )
 router.register(r'backcall', others.views.BackCallViewSet, 'backcall', )
 
-# url(r'^$', views.HeaderLinks.as_view(), name='header' ),
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path(r'ckeditor/', include('ckeditor_uploader.urls')),
@@ -47,14 +45,8 @@ urlpatterns = [
                   path('api/v1/collection_product/<int:pk>', views.collection_products),  # показывает 12 товаров из одной коллекции
                   path('api/v1/news_product/', views.new_products),  # показывает 5 товаров со статусом новинки
                   path('product_search/', product.views.product_search),  #
+                  path('mainpage/', product.views.mainpage),
+
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += url
-# path ('api-auth/',include('rest_framework.urls')),
-# path('api/v1/about_us', include('others.urls')),
-# path('api/v1/', include('product.urls'))
-
-
-# if settings.DEBUG:
-#         urlpatterns += static(settings.MEDIA_URL,
-#                               document_root=settings.MEDIA_ROOT)

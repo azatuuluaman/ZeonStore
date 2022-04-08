@@ -9,18 +9,34 @@ class ProductSerializer(serializers.ModelSerializer):
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = '__all__'
+        fields = ('title' , 'id')
 
 class SimilarProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'collection',)
+        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color')
 
 class CollectionProductSerializer (serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ( 'collection','id', 'cover_photo', 'title',  'price', 'old_price', 'discount','size',  'color',)
 
+class  BestsellerSerializer(serializers.ModelSerializer):
+    """
+    Хит продаж
+    """
+    class Meta:
+        model = Product
+        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color','favorites')
+
+
+class NewClothesSerializer(serializers.ModelSerializer):
+    """
+    Новинки
+    """
+    class Meta:
+        model = Product
+        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
 
 
 

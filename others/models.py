@@ -53,6 +53,7 @@ class MainPage(models.Model):
     Слайдер.Главная страница
     """
     image = models.ImageField('Изображение', upload_to='images_mainpage')
+    link = models.URLField('Ссылка', blank=True)
 
 class PublicOffer(models.Model):
     """

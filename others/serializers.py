@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import AboutUs, News, Helping, PublicOffer, Footer, FloatingButton, BackCall
+from .models import AboutUs, News, Helping, PublicOffer, Footer, FloatingButton, BackCall, MainPage, OurAdvantages
 
 
 class AboutUsSerializer(serializers.ModelSerializer):
@@ -34,7 +34,19 @@ class FloatingButtonSerializer(serializers.ModelSerializer):
         model = FloatingButton
         fields = '__all__'
 
+
 class BackCallSerializer(serializers.ModelSerializer):
     class Meta:
         model = BackCall
         fields = '__all__'
+
+class MainPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainPage
+        fields = '__al__'
+
+class OurAdvantagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OurAdvantages
+        fields = '__al__'
+
