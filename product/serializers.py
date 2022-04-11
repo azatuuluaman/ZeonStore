@@ -39,8 +39,13 @@ class NewClothesSerializer(serializers.ModelSerializer):
         fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
 
 
-
-
+class FavoritesSerializer(serializers.ModelSerializer):
+    """
+    Избранные
+    """
+    class Meta:
+        model = Product
+        fields = ('id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
 
 
 

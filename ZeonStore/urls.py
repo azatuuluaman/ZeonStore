@@ -46,6 +46,7 @@ urlpatterns = [
                   path('api/v1/news_product/', views.new_products),  # показывает 5 товаров со статусом новинки
                   path('product_search/', product.views.product_search),  #
                   path('mainpage/', product.views.mainpage),
+                  path('api/v1/favorites_product/', views.favorites_product),  # показывает 12 товаров со статусом избранное
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

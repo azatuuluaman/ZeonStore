@@ -10,7 +10,8 @@ from . import models
 from others.serializers import MainPageSerializer, OurAdvantagesSerializer
 from others.models import MainPage, OurAdvantages
 from .models import Collection, Product
-from .serializers import ProductSerializer, CollectionSerializer, SimilarProductSerializer, CollectionProductSerializer, BestsellerSerializer, NewClothesSerializer
+from .serializers import ProductSerializer, CollectionSerializer, SimilarProductSerializer, CollectionProductSerializer, BestsellerSerializer, \
+    NewClothesSerializer, FavoritesSerializer
 import json
 from django.http import HttpResponse
 
@@ -206,3 +207,11 @@ def mainpage(request):
                     status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def favorites_product(request):
+    """
+    Фильтр для вывода 12ти товаров со статусом избранное
+    """
+    queryset = Product.objects.all().filter(favorites=True)[0:12]
+    serializer = FavoritesSerializer(queryset, many=True)
+    return Response(serializer.data)
