@@ -48,4 +48,10 @@ class FavoritesSerializer(serializers.ModelSerializer):
         fields = ('id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
 
 
-
+class BasketSerializer(serializers.ModelSerializer):
+    """
+    Корзина
+    """
+    class Meta:
+        model = Product
+        fields = ('id', 'cover_photo', 'title','size', 'color', 'price', 'old_price', 'count_item',)

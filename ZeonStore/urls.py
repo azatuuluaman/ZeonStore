@@ -36,6 +36,8 @@ router.register(r'publicoffer', others.views.PublicOfferViewSet, 'publicoffer') 
 router.register(r'footer', others.views.FooterViewSet, 'footer')  # футер
 router.register(r'floatingbutton', others.views.FloatingButtonViewSet, 'floatingbutton', )
 router.register(r'backcall', others.views.BackCallViewSet, 'backcall', )
+router.register(r'favorites', product.views.FavoritesViewSet, 'favorites',)
+router.register(r'basket', product.views.BasketViewSet, 'basket',)
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -46,8 +48,7 @@ urlpatterns = [
                   path('api/v1/news_product/', views.new_products),  # показывает 5 товаров со статусом новинки
                   path('product_search/', product.views.product_search),  #
                   path('mainpage/', product.views.mainpage),
-                  path('api/v1/favorites_product/', views.favorites_product),  # показывает 12 товаров со статусом избранное
-
+                  # path('basket/', product.views.BasketViewSet)
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += url

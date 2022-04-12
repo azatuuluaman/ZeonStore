@@ -1,4 +1,7 @@
 import random
+
+from rest_framework.permissions import IsAdminUser
+
 import others
 from . import serializers
 from rest_framework import viewsets, filters, generics, status
@@ -11,7 +14,7 @@ from others.serializers import MainPageSerializer, OurAdvantagesSerializer
 from others.models import MainPage, OurAdvantages
 from .models import Collection, Product
 from .serializers import ProductSerializer, CollectionSerializer, SimilarProductSerializer, CollectionProductSerializer, BestsellerSerializer, \
-    NewClothesSerializer, FavoritesSerializer
+    NewClothesSerializer, FavoritesSerializer, BasketSerializer
 import json
 from django.http import HttpResponse
 
@@ -153,24 +156,6 @@ def product_search(request):
     return Response(serializer.data)
 
 
-# @api_view(['GET'])
-# def mainpage(request):
-#     """
-#     Главная страница api.
-#     """
-#     querylist = [
-#         {'queryset': MainPage.objects.all(), 'serializer':
-#          MainPageSerializer },
-#         {'queryset': Product.objects.all().filter(bestseller=True)[0:8], 'serializer':
-#         BestsellerSerializer},
-#         {'queryset': Product.objects.all().filter(new_clothes=True)[0:4], 'serializer':
-#         BestsellerSerializer},
-#         {'queryset': Collection.objects.all()[0:4], 'serializer':
-#          CollectionSerializer},
-#         {'queryset': OurAdvantages.objects.all()[0:4], 'serializer':
-#          OurAdvantagesSerializer},
-#     ]
-
 
 @api_view(['GET'])
 def mainpage(request):
@@ -206,12 +191,34 @@ def mainpage(request):
                      "Наши преимущества": ouradvantages_ser},
                     status=status.HTTP_200_OK)
 
+#
+# @api_view(['GET'])
+# def favorites_product(request):
+#     """
+#     Фильтр для вывода 12ти товаров со статусом избранное
+#     """
+#     queryset = Product.objects.all().filter(favorites=True)[0:12]
+#     serializer = FavoritesSerializer(queryset, many=True)
+#     return Response(serializer.data)
 
-@api_view(['GET'])
-def favorites_product(request):
+# class favorites_product(generics.ListCreateAPIView):
+#     queryset = Product.objects.all().filter(favorites=True)[0:12]
+#     serializer_class = FavoritesSerializer
+#     permission_classes = [IsAdminUser]
+#     return Response (serializer.data)
+
+
+class FavoritesViewSet(ModelViewSet):
     """
-    Фильтр для вывода 12ти товаров со статусом избранное
+     Фильтр для вывода 12ти товаров со статусом избранное
     """
-    queryset = Product.objects.all().filter(favorites=True)[0:12]
-    serializer = FavoritesSerializer(queryset, many=True)
-    return Response(serializer.data)
+    queryset = models.Product.objects.all().filter(favorites=True)[0:12]
+    serializer_class = FavoritesSerializer
+
+
+class BasketViewSet(ModelViewSet):
+    """
+    Корзина
+    """
+    queryset = models.Product.objects.all()
+    serializer_class = BasketSerializer

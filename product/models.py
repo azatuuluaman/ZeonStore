@@ -21,7 +21,7 @@ class Product(models.Model):
     cover_photo = models.ManyToManyField('ProductGallery', verbose_name='product_gallery')
     collection = models.ForeignKey('Collection', on_delete=models.CASCADE, related_name='product')
     color = models.ManyToManyField('ProductColor')
-    count_item = models.IntegerField('Количество вещей')
+    count_item = models.IntegerField('Количество вещей', default=1)
     size = models.CharField('Размерный ряд', max_length=100)
     material = models.CharField('Материал товара', max_length=50)
     favorites = models.BooleanField('Избранные', default=False)
@@ -81,15 +81,24 @@ class UserOrder(models.Model):
     status_order = models.CharField('Статус заказа', choices=order, max_length=50, default='New')
 
 
-class ProductOrder(models.Model):
-    img = models.ManyToManyField('ProductGallery', verbose_name='product_gallery')
-    title = models.CharField('Название товара', max_length=50)
-    count_item = models.IntegerField('Количество вещей', default=1)
-    size = models.CharField('Размерный ряд', max_length=100)
-    color = models.ManyToManyField('ProductColor')
-    price = models.IntegerField('Цена товара')
-    old_price = models.IntegerField('Старая цена', null=True, blank=True)
-    discount = models.DecimalField('Размер скидки', max_digits=100, blank=True, decimal_places=2)
+class Basket(models.Model):
+    """
+    Корзина
+    """
+    
+
+# class ProductOrder(models.Model):
+#     """
+#
+#     """
+#     img = models.ManyToManyField('ProductGallery', verbose_name='product_gallery')
+#     title = models.CharField('Название товара', max_length=50)
+#     count_item = models.IntegerField('Количество вещей', default=1)
+#     size = models.CharField('Размерный ряд', max_length=100)
+#     color = models.ManyToManyField('ProductColor')
+#     price = models.IntegerField('Цена товара')
+#     old_price = models.IntegerField('Старая цена', null=True, blank=True)
+#     discount = models.DecimalField('Размер скидки', max_digits=100, blank=True, decimal_places=2)
 
 
 # class Order(models.Model):

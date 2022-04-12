@@ -41,5 +41,3 @@ class CollectionAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(UserOrder)
-admin.site.register(ProductOrder)
-
