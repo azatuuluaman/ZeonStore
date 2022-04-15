@@ -1,10 +1,5 @@
-import random
-
-from rest_framework.permissions import IsAdminUser
-
-import others
 from . import serializers
-from rest_framework import viewsets, filters, generics, status
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -13,27 +8,11 @@ from . import models
 from others.serializers import MainPageSerializer, OurAdvantagesSerializer
 from others.models import MainPage, OurAdvantages
 from .models import Collection, Product
-from .serializers import ProductSerializer, CollectionSerializer, SimilarProductSerializer, CollectionProductSerializer, BestsellerSerializer, \
-    NewClothesSerializer, FavoritesSerializer, BasketSerializer
-import json
-from django.http import HttpResponse
-
-class Pagination(PageNumberPagination):
-    page_size = 1
-    max_page_size = 10
-
-    def get_paginated_response(self, data):
-        return Response({
-            'links': {
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link()
-            },
-            'count': self.page.paginator.count,
-            'results': data
-        })
+from .serializers import ProductSerializer, CollectionSerializer, \
+    SimilarProductSerializer, CollectionProductSerializer, ProductTypeSerializer
 
 
-class SearchPagination(PageNumberPagination):
+class BasicPagination(PageNumberPagination):
     page_size = 1
     max_page_size = 8
 
@@ -48,7 +27,22 @@ class SearchPagination(PageNumberPagination):
         })
 
 
-class CollectionProductPagination(PageNumberPagination):
+class TenPagination(PageNumberPagination):
+    page_size = 1
+    max_page_size = 10
+
+    def get_paginated_response(self, data):
+        return Response({
+            'links': {
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link()
+            },
+            'count': self.page.paginator.count,
+            'results': data
+        })
+
+
+class TwelvePagination(PageNumberPagination):
     page_size = 1
     max_page_size = 12
 
@@ -88,7 +82,7 @@ class CollectionViewSet(ModelViewSet):
     """
     queryset = models.Collection.objects.all()
     serializer_class = CollectionSerializer
-    pagination_class = Pagination
+    pagination_class = TenPagination
 
 
 class CollectionProductViewSet(ModelViewSet):
@@ -97,7 +91,7 @@ class CollectionProductViewSet(ModelViewSet):
     """
     queryset = models.Product.objects.all()
     serializer_class = CollectionProductSerializer
-    pagination_class = CollectionProductPagination
+    pagination_class = TwelvePagination
 
 
 @api_view(['GET'])
@@ -116,7 +110,7 @@ class NewProductViewSet(ModelViewSet):
     Список новинки
     """
     queryset = models.Product.objects.all()
-    serializer_class = CollectionProductSerializer
+    serializer_class = ProductTypeSerializer
 
 
 @api_view(['GET'])
@@ -124,37 +118,32 @@ def new_products(request):
     """
     Фильтр для вывода 5ти товаров со статусом новинки
     """
-    # collection = Collection.objects.get(id=pk)
     queryset = Product.objects.all().filter(new_clothes=True)[0:5]
     serializer = SimilarProductSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
-
 @api_view(['GET'])
 def product_search(request):
     """
-    Поисковик.
-    :param request:
-    :return:
+    Поисковик
     """
     obj = []
-    number = models.Collection.objects.all().count() #
+    number = models.Collection.objects.all().count()  #
     if number >= 5:
-        for i in models.Collection.objects.all().values_list('id')[0:5]: #
+        for i in models.Collection.objects.all().values_list('id')[0:5]:  #
             if models.Product.objects.all().filter(collection=i).first() is None:
                 pass
             else:
                 obj.append(models.Product.objects.all().filter(collection=i).first())
     else:
-        for i in models.Collection.objects.all().values_list('id')[0:number]: #
+        for i in models.Collection.objects.all().values_list('id')[0:number]:
             if models.Product.objects.all().filter(collection=i).first() is None:
                 pass
             else:
                 obj.append(models.Product.objects.all().filter(collection=i).first())
     serializer = serializers.ProductSerializer(obj, many=True)
     return Response(serializer.data)
-
 
 
 @api_view(['GET'])
@@ -166,10 +155,10 @@ def mainpage(request):
     main_page_ser = MainPageSerializer(main_page, many=True).data
 
     bestseller = Product.objects.all().filter(bestseller=True)[0:8]
-    bestseller_ser = BestsellerSerializer(bestseller, many=True).data
+    bestseller_ser = ProductTypeSerializer(bestseller, many=True).data
 
     new = Product.objects.all().filter(new_clothes=True)[0:4]
-    new_ser = BestsellerSerializer(new, many=True).data
+    new_ser = ProductTypeSerializer(new, many=True).data
 
     collection = Collection.objects
     collection_ser = CollectionSerializer(collection, many=True).data
@@ -184,28 +173,12 @@ def mainpage(request):
     response_data['products'] = collection_ser
     response_data['products'] = ouradvantages_ser
 
-    return Response({"Слайдер, список" : main_page_ser,
-                    "Хит продаж" : bestseller_ser,
+    return Response({"Слайдер, список": main_page_ser,
+                     "Хит продаж": bestseller_ser,
                      "Новинки": new_ser,
                      "Коллекция список ": collection_ser,
                      "Наши преимущества": ouradvantages_ser},
                     status=status.HTTP_200_OK)
-
-#
-# @api_view(['GET'])
-# def favorites_product(request):
-#     """
-#     Фильтр для вывода 12ти товаров со статусом избранное
-#     """
-#     queryset = Product.objects.all().filter(favorites=True)[0:12]
-#     serializer = FavoritesSerializer(queryset, many=True)
-#     return Response(serializer.data)
-
-# class favorites_product(generics.ListCreateAPIView):
-#     queryset = Product.objects.all().filter(favorites=True)[0:12]
-#     serializer_class = FavoritesSerializer
-#     permission_classes = [IsAdminUser]
-#     return Response (serializer.data)
 
 
 class FavoritesViewSet(ModelViewSet):
@@ -213,12 +186,4 @@ class FavoritesViewSet(ModelViewSet):
      Фильтр для вывода 12ти товаров со статусом избранное
     """
     queryset = models.Product.objects.all().filter(favorites=True)[0:12]
-    serializer_class = FavoritesSerializer
-
-
-class BasketViewSet(ModelViewSet):
-    """
-    Корзина
-    """
-    queryset = models.Product.objects.all()
-    serializer_class = BasketSerializer
+    serializer_class = ProductTypeSerializer

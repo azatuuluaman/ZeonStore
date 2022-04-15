@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CART_SESSION_ID = 'Cart'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'colorfield',
     'drf_yasg',
     'drf_multiple_model',
-    'order',
+    'Order',
+    'Cart',
 ]
 
 MIDDLEWARE = [

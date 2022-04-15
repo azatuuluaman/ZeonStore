@@ -1,57 +1,41 @@
 from rest_framework import serializers
 from .models import Product, Collection
 
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
+
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ('title' , 'id')
+        fields = ('title', 'id')
+
 
 class SimilarProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color')
+        fields = ('id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color')
 
-class CollectionProductSerializer (serializers.ModelSerializer):
+
+class CollectionProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ( 'collection','id', 'cover_photo', 'title',  'price', 'old_price', 'discount','size',  'color',)
-
-class  BestsellerSerializer(serializers.ModelSerializer):
-    """
-    Хит продаж
-    """
-    class Meta:
-        model = Product
-        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color','favorites')
+        fields = ('collection', 'id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color',)
 
 
-class NewClothesSerializer(serializers.ModelSerializer):
+class ProductTypeSerializer(serializers.ModelSerializer):
     """
-    Новинки
+    Избранные, хит продаж, новинки.
     """
     class Meta:
         model = Product
-        fields = ('id' ,'cover_photo' , 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
+        fields = ('id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites', 'bestseller', 'new_clothes')
 
 
-class FavoritesSerializer(serializers.ModelSerializer):
-    """
-    Избранные
-    """
+class Cart2Serializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'cover_photo', 'title', 'price', 'old_price', 'discount', 'size', 'color', 'favorites')
-
-
-class BasketSerializer(serializers.ModelSerializer):
-    """
-    Корзина
-    """
-    class Meta:
-        model = Product
-        fields = ('id', 'cover_photo', 'title','size', 'color', 'price', 'old_price', 'count_item',)
+        fields = ('id', 'cover_photo', 'title', 'size', 'color', 'price', 'old_price',)
