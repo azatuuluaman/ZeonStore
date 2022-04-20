@@ -6,9 +6,12 @@ class Product(models.Model):
     """
     Товар
     """
-    title = models.CharField('Название товара', max_length=50)
+    title = models.CharField('Название товара',
+                             max_length=50)
     price = models.IntegerField('Цена товара')
-    old_price = models.IntegerField('Старая цена', null=True, blank=True)
+    old_price = models.IntegerField('Старая цена',
+                                    null=True,
+                                    blank=True)
     discount = models.IntegerField('Размер скидки', null=True, blank=True, default=0)
     fabric_structure = models.CharField('Состав ткани', max_length=50)
     bestseller = models.BooleanField('Хит продаж', default=False)
@@ -16,6 +19,7 @@ class Product(models.Model):
     article = models.CharField('Артикул товара', max_length=50)
     description = models.TextField('Описание', max_length=1500)
     cover_photo = models.ManyToManyField('ProductGallery', verbose_name='product_gallery')
+    photo = models.ImageField( upload_to='images')
     collection = models.ForeignKey('Collection', on_delete=models.CASCADE, related_name='product')
     color = models.ManyToManyField('ProductColor')
     count_item = models.IntegerField('Количество вещей', default=1)  # линейка
@@ -34,7 +38,7 @@ class ProductGallery(models.Model):
     image = models.ImageField('Изображение', upload_to='images/')
 
     def __str__(self):
-        return self.image.name
+        return self.image.url
 
 
 class Collection(models.Model):
@@ -53,7 +57,7 @@ class ProductColor(models.Model):
     Цвета для товаров
     """
     title = models.CharField("Название цвета", max_length=50)
-    color_code = ColorField('Код цвета', default='#FF0000', max_length=50)
+    color_code = ColorField('Код цвета', default='#FF0000', max_length=50, null=True)
 
     def __str__(self):
         return self.title

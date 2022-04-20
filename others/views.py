@@ -2,7 +2,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from . import serializers, models
-from .serializers import NewsSerializer, HelpingSerializer, PublicOfferSerializer, FooterSerializer, FloatingButtonSerializer, BackCallSerializer
+from .serializers import NewsSerializer, HelpingSerializer, PublicOfferSerializer, FooterSerializer, FloatingButtonSerializer, BackCallSerializer, \
+    HeaderSerializer
 
 
 class AboutUsViewSet (ModelViewSet):
@@ -52,6 +53,13 @@ class FooterViewSet(ModelViewSet):
     """
     queryset = models.Footer.objects.all()
     serializer_class = FooterSerializer
+
+class HeaderViewSet(ModelViewSet):
+    """
+    Header
+    """
+    queryset = models.Header.objects.all()
+    serializer_class = HeaderSerializer
 
 
 class FloatingButtonViewSet(ModelViewSet):

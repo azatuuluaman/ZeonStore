@@ -22,10 +22,11 @@ class ProductForm(forms.ModelForm):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductForm
+    search_fields = ['title']
 
 
 @admin.register(ProductColor)
-class Product_colorAdmin(admin.ModelAdmin):
+class ProductColorAdmin(admin.ModelAdmin):
     pass
 
 

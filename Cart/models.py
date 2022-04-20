@@ -33,7 +33,6 @@ class Cart(models.Model):
         else:
             return 0
 
-
     def qty_product(self):
         """
         Количество товаров
@@ -72,15 +71,36 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='product_in_cart', on_delete=models.CASCADE)
-    qty = models.PositiveIntegerField(default=1, verbose_name='count_of_products')
-
+    cart = models.ForeignKey(Cart, related_name='cart_items',
+                             on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, related_name='product_in_cart',
+                                on_delete=models.CASCADE)
+    qty = models.PositiveIntegerField(default=1,
+                                      verbose_name='count_of_line')
+    qty_products = models.PositiveIntegerField(default=1,
+                                               verbose_name='count_of_products')
+    image = models.ImageField('Изображение', null=True, blank=True)
+    color = models.CharField('Цвет',
+                             max_length=15, null=True, blank=True)
+    price = models.IntegerField(null=True, blank=True)
+    old_price = models.IntegerField(null=True, blank=True)
+    final_price = models.IntegerField(null=True, blank=True, verbose_name='Цена без скидки')
+    final_price_discount = models.IntegerField(null=True, blank=True, verbose_name='Цена с учетом скидки')
+    discount = models.IntegerField(null=True, blank=True, verbose_name='Сумма скидки')
+    size = models.CharField(max_length=5, null=True, blank=True)
 
     def __str__(self):
         return f"{self.product.title} = cart items"
 
-
     def save(self, *args, **kwargs):
-        self.final_price = self.product.price * self.qty
-        super().save(*args, kwargs)
+        self.size = self.product.size
+        self.price = self.product.price
+        self.old_price = self.product.old_price
+        self.qty_products = self.qty * self.product.count_item
+        self.color = str([i.color_code for i in self.product.color.all()][:1])
+        self.final_price = self.qty * self.price
+        self.discount = (self.price - self.old_price) * self.qty
+        self.final_price_discount = self.final_price - self.discount
+        self.image = self.product.photo
+        super().save(*args, **kwargs)
+

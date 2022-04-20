@@ -1,3 +1,5 @@
+from rest_framework.filters import SearchFilter
+
 from . import serializers
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
@@ -13,7 +15,7 @@ from .serializers import ProductSerializer, CollectionSerializer, \
 
 
 class BasicPagination(PageNumberPagination):
-    page_size = 1
+    page_size = 8
     max_page_size = 8
 
     def get_paginated_response(self, data):
@@ -28,7 +30,7 @@ class BasicPagination(PageNumberPagination):
 
 
 class TenPagination(PageNumberPagination):
-    page_size = 1
+    page_size = 10
     max_page_size = 10
 
     def get_paginated_response(self, data):
@@ -43,7 +45,7 @@ class TenPagination(PageNumberPagination):
 
 
 class TwelvePagination(PageNumberPagination):
-    page_size = 1
+    page_size = 12
     max_page_size = 12
 
     def get_paginated_response(self, data):
@@ -62,7 +64,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     Товар
     """
     queryset = models.Product.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
     serializer_class = ProductSerializer
+
 
 
 @api_view(['GET'])
@@ -82,7 +87,7 @@ class CollectionViewSet(ModelViewSet):
     """
     queryset = models.Collection.objects.all()
     serializer_class = CollectionSerializer
-    pagination_class = TenPagination
+    pagination_class = BasicPagination
 
 
 class CollectionProductViewSet(ModelViewSet):
@@ -160,7 +165,7 @@ def mainpage(request):
     new = Product.objects.all().filter(new_clothes=True)[0:4]
     new_ser = ProductTypeSerializer(new, many=True).data
 
-    collection = Collection.objects
+    collection = Collection.objects.all()
     collection_ser = CollectionSerializer(collection, many=True).data
 
     ouradvantages = OurAdvantages.objects.all()
